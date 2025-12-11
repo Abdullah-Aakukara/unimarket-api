@@ -39,6 +39,9 @@ const loginAuth = async (req, res, next) => {
         next();
     } catch(error) {
         console.log(error.message);
+        res.json({
+            "message": "Internal Server Error, try again!"
+        })
     } 
 }
 
@@ -47,6 +50,7 @@ const loginAuth = async (req, res, next) => {
 router.post('/login', validationMiddleware, loginAuth, (req, res) => {       
     const payload = {
         username: req.user.username, 
+        id: req.user.id,
         email: req.user.email
     }
 
