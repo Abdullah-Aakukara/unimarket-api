@@ -19,7 +19,7 @@ const diskStorage = multer.diskStorage({
         cb(null, uploadPath)
     }, 
     filename: (req, file, cb) => {
-        cb(null, file.originalname)
+        cb(null, `${Date.now()}-${file.originalname}`)
     }
 })
 
@@ -62,7 +62,8 @@ router.post('/', upload.single('productImage'), productValidation, authMiddlewar
     
     
     const {title, description, price, condition, category_id} = req.body;
-    const imageUrlForDb = `${req.file.path}`;
+    const imageUrlForDb = `uploads/${req.file.filename}`;
+    
     
     try {
         const result = await pool.query('INSERT INTO products(title, description, category_id, price, condition, user_id, image_url) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [title, description, category_id, price, condition, req.user.id, imageUrlForDb]);
@@ -70,6 +71,7 @@ router.post('/', upload.single('productImage'), productValidation, authMiddlewar
             "message": "Your product has been listed Successfully!", 
             "product_details": result.rows[0]
         })
+
     } catch(error) {
         console.log(error.message);
         res.status(500).json({

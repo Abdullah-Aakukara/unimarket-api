@@ -21,9 +21,7 @@ app.use('/', (req, res, next) => {
     next();
 })
 
-
-
-
+app.use('/uploads', express.static('public/upload'));
 app.use('/api/auth', registerRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/products', productRoutes);
