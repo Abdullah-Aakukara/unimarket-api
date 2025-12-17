@@ -8,7 +8,7 @@ const rateLimiter = require('express-rate-limit')
 require('dotenv').config();
 
 const app = express();
-const PORT = 3000
+const PORT = process.env.PORT
 
 // req body parser
 app.use(express.json());
@@ -28,7 +28,7 @@ app.use('/', (req, res, next) => {
 })
 
 // static middleware for serving images
-app.use('/uploads', express.static('public/upload'));
+app.use('/uploads', express.static('public/uploads'));
 
 // Register Router
 app.use('/api/auth', registerRoutes);
