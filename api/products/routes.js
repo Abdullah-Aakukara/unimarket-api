@@ -4,11 +4,18 @@ const pool = require('../../db');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-
+const rateLimiter = require('express-rate-limit');
 
 const router = express.Router();
 
+// rate limit config for post route
+const postLimiter = rateLimiter({
+    windowMs: 60 * 60 * 1000,
+    limit: 1, 
+    message: "Too many products created from this Account, please try again after an hour."
+})
 
+// file upload config (multer)
 const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadPath = path.join (process.cwd(),'public', 'upload');
@@ -57,8 +64,9 @@ async function productValidation(req, res, next) {
     }
     next();
 }
+
 // Posting a new Product
-router.post('/', upload.single('productImage'), productValidation, authMiddleware, async (req, res) => {
+router.post('/', postLimiter, upload.single('productImage'), productValidation, authMiddleware, async (req, res) => {
     
     
     const {title, description, price, condition, category_id} = req.body;
