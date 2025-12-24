@@ -3,7 +3,6 @@ const cors = require('cors');
 const registerRoutes = require('./api/auth/register/register.js');
 const loginRoutes = require('./api/auth/login/login.js');
 const productRoutes = require('./api/products/routes.js')
-const validationMiddleware = require('./validation.js');
 const rateLimiter = require('express-rate-limit')
 require('dotenv').config();
 

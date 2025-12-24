@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const pool = require('../../../db');
-const validationMiddleware = require('../../../validation');
+const pool = require('../../../database');
+const validationMiddleware = require('../../../middlewares/validation');
 
 const app = express();
 const router = express.Router();
