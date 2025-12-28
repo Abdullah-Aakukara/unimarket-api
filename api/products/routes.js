@@ -1,6 +1,7 @@
 const express = require('express');
 const authMiddleware = require('../../middlewares/authentication')
-const pool = require('../../db');
+const productValidation = require('../../middlewares/productValidation')
+const pool = require('../../database');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -11,8 +12,8 @@ const router = express.Router();
 // rate limit config for post route
 const postLimiter = rateLimiter({
     windowMs: 60 * 60 * 1000,
-    limit: 1, 
-    message: "Too many products created from this Account, please try again after an hour."
+    limit: 5, 
+    message: "Too many products created from this Account, please try again after One Hour."
 })
 
 // file upload config (multer)
@@ -32,64 +33,7 @@ const diskStorage = multer.diskStorage({
 
 const upload = multer({storage: diskStorage});
 
-async function productValidation(req, res, next) {
-    const {title, description, price, condition, category_id} = req.body;
-  
-    if(!title || !price || !condition || !category_id || !description) {
-        return res.status(400).json({
-            "message": "Invalid Request, fill up all input fields!"
-        })
-    }
-
-    if(!req.file) {
-        return res.status(400).json({
-            "message": "Image not provided, please upload a good Image!"
-        })
-    }
-
-    
-    // I know regex, strict validation and all that stuff but not going to implement strict validation, since we can do all this type of validation through "Clien side validation".
-    try {
-       
-        const result = await pool.query('SELECT id FROM categories WHERE id = $1',[category_id]);
-        if(!result.rowCount) {
-            return res.status(400).json({
-                "message": "Invalid category_id!"
-            })
-        }
-    } catch(err) {
-        return res.status(500).json({
-            "message": "Internal server!"
-        })
-    }
-    next();
-}
-
-// Posting a new Product
-router.post('/', postLimiter, upload.single('productImage'), productValidation, authMiddleware, async (req, res) => {
-    
-    
-    const {title, description, price, condition, category_id} = req.body;
-    const imageUrlForDb = `uploads/${req.file.filename}`;
-    
-    
-    try {
-        const result = await pool.query('INSERT INTO products(title, description, category_id, price, condition, user_id, image_url) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [title, description, category_id, price, condition, req.user.id, imageUrlForDb]);
-        res.status(201).json({
-            "message": "Your product has been listed Successfully!", 
-            "product_details": result.rows[0]
-        })
-
-    } catch(error) {
-        console.log(error.message);
-        res.status(500).json({
-            "message": "Internal Server Error!"
-        })
-        fs.unlinkSync(req.file.path);
-    }
-})
-
-// Viewing all Products along with query string
+// View all Products along with query string
 router.get('/', async (req, res) => {
     try {
         if (!req.query.category_id) {
@@ -113,4 +57,28 @@ router.get('/', async (req, res) => {
     }
 })
 
-module.exports = router;
+// Post a new Product
+router.post('/', postLimiter, upload.single('productImage'), productValidation, authMiddleware, async (req, res) => {
+    
+    
+    const {title, description, price, condition, category_id} = req.body;
+    const imageUrlForDb = `uploads/${req.file.filename}`;
+    
+    
+    try {
+        const result = await pool.query('INSERT INTO products(title, description, category_id, price, condition, user_id, image_url) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [title, description, category_id, price, condition, req.user.id, imageUrlForDb]);
+        res.status(201).json({
+            "message": "Your product has been listed Successfully!", 
+            "product_details": result.rows[0]
+        })
+
+    } catch(error) {
+        console.log(error.message);
+        res.status(500).json({
+            "message": "Internal Server Error!"
+        })
+        fs.unlinkSync(req.file.path);
+    }
+})
+
+module.exports = router

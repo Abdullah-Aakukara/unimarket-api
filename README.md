@@ -1,4 +1,6 @@
 # 🛒 UniMarket API
+**Live API:** [https://unimarket-d7nz.onrender.com](https://unimarket-d7nz.onrender.com)  
+**Status:** Production-Ready 
 
 A robust, multi-vendor e-commerce RESTful API built with the **PEN Stack** (PostgreSQL, Express, Node.js). 
 Designed to handle complex data relationships, secure authentication, and file management for a campus marketplace.
@@ -18,24 +20,18 @@ Designed to handle complex data relationships, secure authentication, and file m
 * **Runtime:** Node.js
 * **Framework:** Express.js
 * **Database:** PostgreSQL 
-* **Security:** `bcrypt`, `jsonwebtoken`, `express-rate-limit`, `cors`
+* **Security:** `bcrypt`, `jsonwebtoken`, `express-rate-limit`
 * **File Handling:** `multer`
 
-## 🔌 API Endpoints
-
-### Auth
-* `POST /api/auth/register` - Create a new account
-* `POST /api/auth/login` - Login and receive JWT
-
-### Products
-* `GET /api/products` - Retrieve all products (supports filtering `?category_id=1`)
-* `POST /api/products` - List a new product (Requires Auth + Image File)
+## 🧪 API Documentation & Testing
+The API is fully documented using Postman. You can view the live documentation here:
+* **[https://documenter.getpostman.com/view/48552920/2sBXVbGDJs](https://documenter.getpostman.com/view/48552920/2sBXVbGDJs)**
 
 ## 🏃‍♂️ Run Locally
 
 1.  **Clone the repo**
     ```bash
-    git clone [https://github.com/Abdullah-Aakukara/unimarket-api.git](https://github.com/Abdullah-Aakukara/unimarket-api.git)
+    git clone https://github.com/Abdullah-Aakukara/unimarket-api.git
     cd unimarket-api
     ```
 
@@ -47,7 +43,7 @@ Designed to handle complex data relationships, secure authentication, and file m
 3.  **Setup Environment Variables**
     Create a `.env` file in the root and add:
     ```env
-    PORT=3000
+    PORT=your_port
     DB_USER=your_postgres_user
     DB_PASSWORD=your_postgres_password
     DB_HOST=localhost
