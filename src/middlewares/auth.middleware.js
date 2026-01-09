@@ -1,8 +1,6 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
 
-// authMiddleware (OUR BOUNCER)
-function authenticateMiddleware(req, res, next) {
+function authMiddleware(req, res, next) {
     const token = req.headers && req.headers['authorization'].split(' ')[1]
     
     if (!token) {
@@ -23,4 +21,4 @@ function authenticateMiddleware(req, res, next) {
     } 
 }
 
-module.exports = authenticateMiddleware;
+module.exports = authMiddleware;

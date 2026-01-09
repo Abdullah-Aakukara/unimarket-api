@@ -1,4 +1,4 @@
-const pool = require('../database')
+const pool = require('../db/index')
 
 // Product Validation
 async function productValidation(req, res, next) {
@@ -15,9 +15,7 @@ async function productValidation(req, res, next) {
             "message": "Image not provided, please upload a good Image!"
         })
     }
-
     
-    // I know regex, strict validation and all that stuff but not going to implement strict validation, since we can do all this type of validation through "Clien side validation".
     try {
        
         const result = await pool.query('SELECT id FROM categories WHERE id = $1',[category_id]);
@@ -27,11 +25,9 @@ async function productValidation(req, res, next) {
             })
         }
     } catch(err) {
-        console.log(err.message)
-        return res.status(500).json({
-            "message": "Internal server!"
-        })
+        next(err)
     }
+    
     next();
 }
 

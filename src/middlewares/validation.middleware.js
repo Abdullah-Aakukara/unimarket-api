@@ -1,5 +1,4 @@
 
-// validation middleware 
 const validationMiddleware = (req, res, next) => {
     const {username, email, password} = req.body;
 
@@ -11,7 +10,7 @@ const validationMiddleware = (req, res, next) => {
             })
         }  
     }
-    // common for both routes
+    // common for both routes (register and login)
     if (!email || !password) {
         res.status(400).json({
             message: 'Please enter valid Email and Password!'
