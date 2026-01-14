@@ -13,9 +13,11 @@ CREATE TABLE categories (
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     title VARCHAR(80) NOT NULL, 
+    description TEXT,
     category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
     price INTEGER NOT NULL, 
     condition VARCHAR(20) NOT NULL,
     is_defect BOOLEAN DEFAULT FALSE,
+    image_url TEXT NOT NULL,
     user_id INTEGER REFERENCES app_users(id) ON DELETE CASCADE
 );

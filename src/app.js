@@ -37,7 +37,7 @@ app.use('/api/products', productRoutes);
 
 // Error Handling
 app.use((err, req, res, next) => {
-    logger.error(`${err.stack} \n Request: ${req.method} ${req.originalUrl} \n Device IP: ${req.ip} \n`);
+    logger.error(`${err.stack} \n Request: ${req.method} ${req.originalUrl} \n IP: ${req.ip} \n`);
     res.status(500).json({ message: "Internal Server Error!" });
 });
 

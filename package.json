@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "npx nodemon api/index.js"
+    "dev": "npx nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "pg": "^8.16.3",
+    "pg-pool": "^3.10.1",
+    "redis": "^5.10.0",
     "winston": "^3.19.0"
   },
   "devDependencies": {
