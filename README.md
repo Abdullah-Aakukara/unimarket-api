@@ -1,31 +1,63 @@
 # 🛒 UniMarket API
-**Live API:** [https://unimarket-d7nz.onrender.com](https://unimarket-d7nz.onrender.com)  
+**Live API:** [https://unimarket-d7nz.onrender.com](https://unimarket-d7nz.onrender.com/api/products)  
 **Status:** Production-Ready 
 
-A robust, multi-vendor e-commerce RESTful API built with the **PEN Stack** (PostgreSQL, Express, Node.js). 
-Designed to handle complex data relationships, secure authentication, and file management for a campus marketplace.
+UniMarket is a **multi-vendor e-commerce backend** built with the **PEN stack (PostgreSQL, Express, Node.js)**.  
+It is designed with a **layered architecture** to support scalability, security, performance optimization, and real-world production deployment.
+
+---
 
 ## 🚀 Key Features
 
-* **🔐 Stateless Authentication:** Secure user access using **JWT** (JSON Web Tokens) and `bcrypt` password hashing.
-* **📦 Relational Data Modeling:** Raw SQL implementation of complex relationships (Users ↔ Products ↔ Categories) using `JOIN`s and Foreign Keys.
-* **🛡️ Defense-in-Depth:**
-    * **Rate Limiting:** Protection against Brute-Force and DDoS attacks using `express-rate-limit`.
-    * **Input Validation:** Strict data integrity checks before database insertion.
-* **📂 Asset Management:** Image upload functionality using `multer` with static asset serving.
-* **⚡ Cascade Logic:** Automated data cleanup (e.g., deleting a User also removes their Products).
+### 🔐 Authentication & Security
+- Stateless authentication using **JWT** with secure password hashing (`bcrypt`)
+- **Rate limiting** to protect against brute-force and spam attacks
+- Strict **request validation** before database writes
+
+### 🧱 Clean Architecture
+- Layered design using **Routes → Controllers → Services**
+- Clear separation of concerns for maintainability and scalability
+
+### ⚡ Performance Optimization
+- **Redis caching** implemented using the **Cache-Aside pattern**
+- Automatic cache invalidation on write operations (create/update/delete)
+- Reduced database load for read-heavy endpoints
+
+### 🗄️ Data Management
+- PostgreSQL relational data modeling (Users ↔ Products ↔ Categories)
+- Raw SQL queries with joins and foreign keys
+- Cascade delete logic for automated data cleanup
+
+### 📂 File & Asset Handling
+- Product image uploads using **Multer**
+- Static asset serving for public image access
+
+### 📊 Observability
+- **Production-grade logging** using **Winston**
+- Structured JSON logs with timestamps
+- Centralized global error-handling middleware
+
+---
 
 ## 🛠️ Tech Stack
 
-* **Runtime:** Node.js
-* **Framework:** Express.js
-* **Database:** PostgreSQL 
-* **Security:** `bcrypt`, `jsonwebtoken`, `express-rate-limit`
-* **File Handling:** `multer`
+- **Runtime:** Node.js  
+- **Framework:** Express.js  
+- **Database:** PostgreSQL (Supabase in production)  
+- **Caching:** Redis  
+- **Security:** JWT, bcrypt, express-rate-limit  
+- **Logging:** Winston  
+- **File Uploads:** Multer  
 
-## 🧪 API Documentation & Testing
-The API is fully documented using Postman. You can view the live documentation here:
-* **[https://documenter.getpostman.com/view/48552920/2sBXVbGDJs](https://documenter.getpostman.com/view/48552920/2sBXVbGDJs)**
+---
+
+## 🧪 API Documentation
+
+The API is fully documented and testable via Postman:
+
+👉 https://documenter.getpostman.com/view/48552920/2sBXVbGDJs
+
+---
 
 ## 🏃‍♂️ Run Locally
 
@@ -43,13 +75,23 @@ The API is fully documented using Postman. You can view the live documentation h
 3.  **Setup Environment Variables**
     Create a `.env` file in the root and add:
     ```env
-    PORT=your_port
-    DB_USER=your_postgres_user
-    DB_PASSWORD=your_postgres_password
+    PORT=3000
+
+    # Database
     DB_HOST=localhost
     DB_PORT=5432
+    DB_USER=postgres
+    DB_PASSWORD=your_password
     DB_NAME=unimarket_db
-    JWT_SECRET=your_super_secret_key
+
+    # Auth
+    JWT_SECRET=your_secret_key
+
+    # Redis
+    REDIS_URL=your_redis_url
+
+    # Environment
+    NODE_ENV=development
     ```
 
 4.  **Initialize Database**
@@ -59,3 +101,16 @@ The API is fully documented using Postman. You can view the live documentation h
     ```bash
     npm start
     ```
+
+---
+
+🌍 Deployment
+-------------
+
+*   Backend deployed on **Render**
+    
+*   **Supabase PostgreSQL** used for production database
+    
+*   **Managed Redis** for caching
+    
+*   Environment-based configuration for development and production
