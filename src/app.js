@@ -12,7 +12,7 @@ const app = express();
 
 // Global Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors()); 
 
 // Global Rate Limiter
 const globalLimiter = rateLimiter({

@@ -17,8 +17,8 @@ async function productValidation(req, res, next) {
     }
     
     try {
-       
-        const result = await pool.query('SELECT id FROM categories WHERE id = $1',[category_id]);
+
+        const result = await pool.query('SELECT id FROM categories WHERE id = $1',[parseInt(category_id)]);
         if(!result.rowCount) {
             return res.status(400).json({
                 "message": "Invalid category_id!"
