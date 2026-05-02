@@ -1,5 +1,5 @@
 # 🛒 UniMarket API
-**Live Demo:** [https://unimarket-d7nz.onrender.com](https://unimarket-d7nz.onrender.com/api/products)  
+**Live Demo:** [https://unimarket-d7nz.onrender.com](https://unimarket-d7nz.onrender.com)  
 **Status:** Production-Ready 
 
 UniMarket is a **multi-vendor e-commerce backend** built with the **PEN stack (PostgreSQL, Express, Node.js)**.  
